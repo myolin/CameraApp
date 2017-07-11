@@ -7,22 +7,16 @@
     android:orientation="vertical"
     tools:context="com.myolin.cameraapp.CameraApp">
 
-    <TextView
+    <!--<Button
+        android:id="@+id/button_camera"
+        android:text="Create TextFile"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name" />
+        android:layout_height="wrap_content" /> -->
 
     <Button
-        android:id="@+id/button_camera"
-        android:text="@string/button_camera"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:id="@+id/image_camera"
-        android:contentDescription="@string/image_cd_camera"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:text="Send to Server"
+        android:id="@+id/sendbutton" />
 
 </LinearLayout>
