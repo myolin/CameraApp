@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import android.content.Context;
 import android.text.InputType;
@@ -6,8 +6,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 /**

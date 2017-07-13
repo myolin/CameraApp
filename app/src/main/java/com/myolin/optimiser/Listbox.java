@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import android.content.Context;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableRow;
 
 /**
  * Created by mzlmy on 3/22/2017.

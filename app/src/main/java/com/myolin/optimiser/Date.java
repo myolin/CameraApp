@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Calendar;

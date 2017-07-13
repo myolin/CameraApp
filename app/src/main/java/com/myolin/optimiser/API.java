@@ -1,29 +1,16 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.renderscript.ScriptGroup;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.TimeUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,21 +18,11 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Scanner;
-
-import android.Manifest;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -57,16 +34,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
-import org.w3c.dom.Text;
 
-import jxl.WorkbookSettings;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
-
-public class CameraApp extends AppCompatActivity {
+public class API extends AppCompatActivity {
 
     String fileName = "OptimiserData.txt";
 
@@ -81,7 +50,7 @@ public class CameraApp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera_app);
+        setContentView(R.layout.activity_api);
 
         myPrefs = new MyPrefs(getApplicationContext());
         asset = new ReadAsset(getApplicationContext());
@@ -136,9 +105,9 @@ public class CameraApp extends AppCompatActivity {
                         }
                         Log.d("RESPONSESSSSSSSSSSS", response);
                     }catch(MalformedURLException e){
-                        Toast.makeText(CameraApp.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(API.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }catch(IOException e){
-                        Toast.makeText(CameraApp.this, e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(API.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

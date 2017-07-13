@@ -1,7 +1,5 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,14 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import org.apache.poi.ss.formula.functions.T;
-
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 

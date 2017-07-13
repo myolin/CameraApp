@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import org.junit.Test;
 

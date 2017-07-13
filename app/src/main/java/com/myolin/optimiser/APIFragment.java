@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 
 import android.content.Intent;
@@ -63,7 +63,7 @@ public class APIFragment extends Fragment {
         apiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CameraApp.class);
+                Intent intent = new Intent(getActivity(), API.class);
                 startActivity(intent);
                 getActivity().finish();
             }

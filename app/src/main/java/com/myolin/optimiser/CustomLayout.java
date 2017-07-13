@@ -1,12 +1,10 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.telephony.PhoneNumberFormattingTextWatcher;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -22,8 +20,6 @@ import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by mzlmy on 3/14/2017.

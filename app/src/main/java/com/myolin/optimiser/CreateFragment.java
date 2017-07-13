@@ -1,4 +1,4 @@
-package com.myolin.cameraapp;
+package com.myolin.optimiser;
 
 import android.app.Activity;
 import android.content.Intent;
