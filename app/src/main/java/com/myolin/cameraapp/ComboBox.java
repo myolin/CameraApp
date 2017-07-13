@@ -24,11 +24,9 @@ public class ComboBox extends AutoCompleteTextView {
         setSingleLine(true);
         setAdapter(adapter);
         setText(defaultValue);
-        //RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0,15,0,15);
         setLayoutParams(lp);
-        //setPadding(0,35,0,35);
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         setListener(id, myPrefs);
     }

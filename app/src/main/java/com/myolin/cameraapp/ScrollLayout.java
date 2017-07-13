@@ -10,13 +10,13 @@ import android.widget.ScrollView;
 
 public class ScrollLayout extends ScrollView {
 
-    CustomLayout customLayout;
+    CustomLayout2 customLayout;
     ImageView imageView;
 
     public ScrollLayout(Context context, int width, int row, int start, int end, ReadAsset asset, MyPrefs myPrefs) {
         super(context);
 
-        customLayout = new CustomLayout(context, width, row, start, end, asset, myPrefs);
+        customLayout = new CustomLayout2(context, width, row, start, end, asset, myPrefs);
 
         imageView = customLayout.getImageView();
 

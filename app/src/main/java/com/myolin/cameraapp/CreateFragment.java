@@ -1,9 +1,13 @@
 package com.myolin.cameraapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Display;
@@ -12,11 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
+
 public class CreateFragment extends Fragment implements Parcelable {
 
     View parent_View;
 
-    //CustomLayout customLayout;
     ScrollLayout scrollLayout;
 
     private static int TAKE_PICTURE = 1;
@@ -38,7 +43,7 @@ public class CreateFragment extends Fragment implements Parcelable {
         scrollLayout = new ScrollLayout(getContext(), width, rows, start, end, asset, myPrefs);
         parent_View = scrollLayout;
         imageView = scrollLayout.getImageView();
-        //init();
+        init();
         super.onCreate(savedInstanceState);
     }
 
@@ -47,19 +52,17 @@ public class CreateFragment extends Fragment implements Parcelable {
         return parent_View;
     }
 
-    /*public void init(){
+    public void init(){
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //startActivityForResult(intent, TAKE_PICTURE);
-                Intent intent = new Intent(getActivity(), CameraActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, TAKE_PICTURE);
             }
         });
-    }*/
+    }
 
-    /*@Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == TAKE_PICTURE && resultCode == Activity.RESULT_OK){
             Bitmap bmp = (Bitmap) data.getExtras().get("data");
@@ -69,7 +72,7 @@ public class CreateFragment extends Fragment implements Parcelable {
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             imageView.setImageBitmap(bitmap);
         }
-    }*/
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
