@@ -17,7 +17,7 @@
         tools:replace="android:icon">
         <activity
             android:name=".NavigationActivity"
-            android:label="Optimiser"
+            android:label="OptiMiser"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -42,6 +42,7 @@ public class API extends AppCompatActivity {
     MyPrefs myPrefs;
     ReadAsset asset;
     StringBuffer sb = new StringBuffer();
+    StringBuffer sb2 = new StringBuffer();
 
     int idcolumn = 3;
     int start = 4;
@@ -55,7 +56,7 @@ public class API extends AppCompatActivity {
         myPrefs = new MyPrefs(getApplicationContext());
         asset = new ReadAsset(getApplicationContext());
 
-        /*Button createTextFile = (Button) findViewById(R.id.button_camera);
+        Button createTextFile = (Button) findViewById(R.id.button_camera);
         createTextFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +64,12 @@ public class API extends AppCompatActivity {
                     String id = asset.getStringDataCell(idcolumn,i);
                     String value = myPrefs.retrieveString(id);
                     //sb.append(id + "=" + value + "\n");
-                    sb.append("&"+id+"="+value);
+                    //sb.append("&"+id+"="+value);
+                    sb2.append(id + "=" + value + "\n");
                 }
                 generateNoteOnSD(fileName);
             }
-        });*/
+        });
 
         for(int i=start; i<end; i++){
             String id = asset.getStringDataCell(idcolumn,i);
@@ -139,7 +141,7 @@ public class API extends AppCompatActivity {
             File gpxFile = new File(root, sFileName);
 
             FileWriter writer = new FileWriter(gpxFile, false);
-            writer.append(sb.toString());
+            writer.append(sb2.toString());
             writer.flush();
             writer.close();
             Toast.makeText(this, "Data has been written", Toast.LENGTH_SHORT).show();
