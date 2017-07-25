@@ -1,9 +1,16 @@
 package com.myolin.optimiser;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.View;
@@ -16,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,12 +34,19 @@ import com.amigold.fundapter.BindDictionary;
 import com.amigold.fundapter.FunDapter;
 import com.amigold.fundapter.extractors.StringExtractor;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 10;
+
     ArrayList<Project> projects;
+    ListView pList;
+    File root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,25 @@ public class NavigationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         projects = new ArrayList<>();
+        pList = (ListView) findViewById(R.id.projectList);
+        root = new File(Environment.getExternalStorageDirectory(), "OptimiserData");
+        if(!root.exists()){
+            root.mkdirs();
+        }
+
+        request();
+
+        pList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(NavigationActivity.this, HomeActivity.class);
+                Project p = (Project) pList.getItemAtPosition(i);
+                String s = p.getName();
+                intent.putExtra("ProjectName", s);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -100,7 +134,6 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.nav_create){
-            final ListView pList = (ListView) findViewById(R.id.projectList);
 
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(NavigationActivity.this);
             View mView = getLayoutInflater().inflate(R.layout.dialog_create, null);
@@ -132,11 +165,35 @@ public class NavigationActivity extends AppCompatActivity
 
                         dialog.dismiss();
 
+                        File gpxFile = new File(root, mProject.getText().toString() + ".txt");
+                        try {
+                            FileWriter writer = new FileWriter(gpxFile, false);
+                            writer.append("");
+                            writer.flush();
+                            writer.close();
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+
                     }else{
                         Toast.makeText(NavigationActivity.this, "Please enter project name", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
+
+            pList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent = new Intent(NavigationActivity.this, HomeActivity.class);
+                    Project p = (Project) pList.getItemAtPosition(i);
+                    String s = p.getName();
+                    intent.putExtra("ProjectName", s);
+                    startActivity(intent);
+                }
+            });
+
+        }else if(id == R.id.nav_delete){
+            pList.setOnItemClickListener(null);
 
             final CustomListViewAdapter adapter = new CustomListViewAdapter(NavigationActivity.this, R.layout.project_layout, projects);
 
@@ -165,6 +222,8 @@ public class NavigationActivity extends AppCompatActivity
                                 if (selected.valueAt(i)) {
                                     Project selectedListItem = (Project) adapter.getItem(selected.keyAt(i));
                                     adapter.remove(selectedListItem);
+                                    File f = new File(root.getAbsolutePath() + "/" + selectedListItem.getName() +".txt");
+                                    boolean deleted = f.delete();
                                 }
                             }
                             actionMode.finish();
@@ -188,13 +247,69 @@ public class NavigationActivity extends AppCompatActivity
                 }
             });
 
-        }else if(id == R.id.nav_delete){
-
         }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void request(){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+        }else{
+            readStorage();
+        }
+    }
+
+    private void readStorage(){
+
+
+        File[] files= root.listFiles();
+        for(File f:files){
+            String name = f.getName();
+            if(name.endsWith(".txt")){
+                projects.add(new Project(name.substring(0, name.lastIndexOf('.'))));
+            }
+        }
+
+        BindDictionary<Project> dictionary = new BindDictionary<>();
+        dictionary.addStringField(R.id.pName, new StringExtractor<Project>() {
+            @Override
+            public String getStringValue(Project item, int position) {
+                return item.getName();
+            }
+        });
+
+        FunDapter adapter = new FunDapter(NavigationActivity.this, projects, R.layout.project_layout, dictionary);
+
+        pList.setAdapter(adapter);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch(requestCode){
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    readStorage();
+                }else{
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
+                        new AlertDialog.Builder(this).
+                                setTitle("Read Storage Permission").
+                                setMessage("You need to grant storage permission to read external storage. Retry and grand it.").show();
+                    }else{
+                        new AlertDialog.Builder(this).
+                                setTitle("Read Storage permission denied").
+                                setMessage("You denied read storage permission. So the feature is disabled. To enable it, go to settings.").show();
+                    }
+                }
+
+                break;
+        }
     }
 }

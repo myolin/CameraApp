@@ -32,6 +32,7 @@ public class CreateFragment extends Fragment implements Parcelable {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         int rows = bundle.getInt("Rows");
         int start = bundle.getInt("Start");
@@ -44,7 +45,6 @@ public class CreateFragment extends Fragment implements Parcelable {
         parent_View = scrollLayout;
         imageView = scrollLayout.getImageView();
         init();
-        super.onCreate(savedInstanceState);
     }
 
     @Override

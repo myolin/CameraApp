@@ -1,5 +1,6 @@
 package com.myolin.optimiser;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import org.apache.poi.ss.formula.functions.Na;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,8 @@ public class HomeActivity extends AppCompatActivity {
 
     GridView gridView;
 
+    String projectName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +40,15 @@ public class HomeActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         //ImageAdapter imageAdapter = new ImageAdapter(getApplicationContext());
         //gridView.setAdapter(imageAdapter);
+        projectName = getIntent().getStringExtra("ProjectName");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.back).setTabListener(new MyListener(gridView)));
-        actionBar.addTab(actionBar.newTab().setText("").setTabListener(new MyListener2()));
-        actionBar.setSelectedNavigationItem(1);
+        actionBar.setTitle(projectName);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.addTab(actionBar.newTab().setIcon(R.drawable.back).setTabListener(new MyListener(gridView)), 0, false);
+        actionBar.addTab(actionBar.newTab().setText("").setTabListener(new MyListener2()), 1, true);
+        //actionBar.setSelectedNavigationItem(1);
 
         ArrayList < String > s = asset.readColumn(1);
         ArrayList<Integer> num = asset.rowsInFrag(1);
@@ -123,12 +131,19 @@ public class HomeActivity extends AppCompatActivity {
                 ft.remove(currentFragment);
                 tab = getSupportActionBar().getTabAt(1);
                 tab.setText("");
+                currentFragment = null;
             }
             if(gridView.getVisibility() == View.GONE){
                 gridView.setVisibility(View.VISIBLE);
                 tab = getSupportActionBar().getTabAt(1);
                 tab.setText("");
             }
+            if(currentFragment == null && tab.getPosition() == 0){
+                Intent intent = new Intent(HomeActivity.this, NavigationActivity.class);
+                startActivity(intent);
+            }
+
+
         }
 
         @Override
@@ -137,11 +152,16 @@ public class HomeActivity extends AppCompatActivity {
                 ft.remove(currentFragment);
                 tab = getSupportActionBar().getTabAt(1);
                 tab.setText("");
+                currentFragment = null;
             }
             if(gridView.getVisibility() == View.GONE){
                 gridView.setVisibility(View.VISIBLE);
                 tab = getSupportActionBar().getTabAt(1);
                 tab.setText("");
+            }
+            if(currentFragment == null && tab.getPosition() == 0){
+                Intent intent = new Intent(HomeActivity.this, NavigationActivity.class);
+                startActivity(intent);
             }
         }
 
